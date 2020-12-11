@@ -168,7 +168,8 @@ Now, we should be able to fund these wallets using testnet faucets.
 
 	- params: 
 		- 'coin' - conitype as string, account - sender account object generated via priv_key_to_account function
-		- 'to' - recipient's account object and amount to transact
+		- 'to' - recipient's account object and 
+		- amount to transact
 
 	- output: returns raw transaction created by bit or web3 to the calling function - send_tx
   	- Dependencies: This function cannot be executed in isolation. send_tx function to be called by passing it's required parameters, which in 	turn triggers create_tx function. The output of create_tx function is returned to calling function send_tx which then gets the raw_tx signed and broadcasted before returning the transaction hash.
@@ -183,7 +184,7 @@ Now, we should be able to fund these wallets using testnet faucets.
 		- recipients account Address as string and
 		- amount to transact as string
 
-    	- output: returns the transaction hash
+	- output: returns the transaction hash
 	- dependencies: depends on the Account object generated via priv_key_to_account. You can pass this object via terminal command by capturing the output from the priv_key_to_account function and supplying it to this function as parameter. You can then print the transaction output by calling the variable that captures the funtion return.
 
 	![Send Transaction](Images/send_tx.PNG)
