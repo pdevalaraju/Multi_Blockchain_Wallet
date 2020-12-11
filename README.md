@@ -16,7 +16,7 @@ This will demonstrate our wallets ability to not only intereact with publicly av
 
 ## Pre Requisites and Installations
 
-The environment setup and pre requisite installation instructions Please refer to ['Requirements'](requirements.md) 
+The environment setup and pre requisite installation instructions Please refer to ['Requirements'](/requirements.md) 
 
 ## Creating a Wallet
 
@@ -127,8 +127,10 @@ Now, we should be able to fund these wallets using testnet faucets.
 
 </details>
 
-<details><summary> <b> Local PoA Ethereum transaction using ['POATestnet'](https://github.com/pdevalaraju/POA_Development_Blockchain) </b> </summary>
+<details><summary> <b> 
+Local PoA Ethereum transaction using </b> </summary>
 
+- Please refer to the POA blockchain development [POA Testnet](https://github.com/pdevalaraju/POA_Development_Blockchain) 
 - Add one of the `ETH` addresses to the pre-allocated accounts in your `poatestnet.json`.
 
 - Initialize using `geth --datadir nodeX init poatestneet.json`. This will run our preconfigured local blockchain, and will pre-fund the new account.
@@ -261,3 +263,6 @@ Now, we should be able to fund these wallets using testnet faucets.
 
 </details>
 
+## Accessing the wallet functions using Jupiter Notebook
+
+if you would like to play around with the functions or would like to add more, please use the [Notebook](/wallet.ipnyb)
