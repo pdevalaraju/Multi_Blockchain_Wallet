@@ -16,7 +16,7 @@ This will demonstrate our wallets ability to not only intereact with publicly av
 
 ## Pre Requisites and Installations
 
-The environment setup and pre requisite installation instructions Please refer to ['Requirements'](/requirements.md) 
+The environment setup and pre requisite installation instructions Please refer to ['Requirements'](/Requirements.md) 
 
 ## Creating a Wallet
 
@@ -265,4 +265,4 @@ Local PoA Ethereum transaction using </b> </summary>
 
 ## Accessing the wallet functions using Jupiter Notebook
 
-if you would like to play around with the functions or would like to add more, please use the [Notebook](/wallet.ipnyb)
+if you would like to play around with the functions or would like to add more, please use the [Notebook](/wallet.ipynb)
