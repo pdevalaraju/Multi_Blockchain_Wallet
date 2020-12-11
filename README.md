@@ -146,6 +146,8 @@ Local PoA Ethereum transaction using </b> </summary>
 
 ## Accessing the wallet functions from powershell or git bash
 
+Open a new Anaconda powershell prompt and run python. at the next prompt, enter "from wallet.py import *" to be able to access the following wallet functions. 
+
 <details><summary> <b>  get_priv_key(coin): </b> </summary>
 	
 - Desrciption: This fetches the private key from environment variable file depending on the cointype. 
