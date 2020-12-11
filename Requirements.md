@@ -9,7 +9,11 @@
 
 - intall [`bit`](https://ofek.github.io/bit/) Python Bitcoin library.
 
+	- pip install bit
+
 - install [`web3.py`](https://github.com/ethereum/web3.py) Python Ethereum library.
+
+	- pip install web3
 
 
 ## Installation Instructions for hd-wallet-derive

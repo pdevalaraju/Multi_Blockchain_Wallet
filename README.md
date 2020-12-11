@@ -14,9 +14,14 @@ Ethereum keys are the same format on any network, so the Ethereum keys should wo
 testnet Ethereum network we developed using PoA consensus algorithm. ['PoA BlockChain'](https://github.com/pdevalaraju/POA_Development_Blockchain). 
 This will demonstrate our wallets ability to not only intereact with publicly available testnet blockchains but be able to interact and make transactions within our local blockchain network using the same wallet. 
 
+## Pre Requisites and Installations
+
+The environment setup and pre requisite installation instructions Please refer to ['Requirements'](requirements.md) 
+
 ## Creating a Wallet
 
-### Setup constants
+<details><summary> <b> Setup constants </b> </summary>
+
 
 - A python file called constants.py` is created to set preset our wallet with predetermined coin types configue the crypto currencies we want to manage using our wallet. This file will be imported into our wallet.py to make the configured token/coin types accessible via our wallet program via referencing these strings, both in function calls, and in setting object keys.
 
@@ -24,13 +29,17 @@ This will demonstrate our wallets ability to not only intereact with publicly av
   - `ETH = 'eth'`
   - `BTCTEST = 'btc-test'`
 
-### Generating a Mnemonic
+</details>
+
+<details><summary> <b>Generating a Mnemonic </b> </summary>
 
 - Generate a new 12 word mnemonic using `hd-wallet-derive` or by using [this tool](https://iancoleman.io/bip39/).
 
 - Set this mnemonic as an environment variable, and save it in .ENV file which can be called via the wallet everytime you want to access the wallet keys: `mnemonic = os.getenv('MNEMONIC', 'insert mnemonic here')`
 
-### Deriving the wallet keys
+</details>
+
+<details><summary> <b>Deriving the wallet keys </b> </summary>
 
 - We will make use of the `subprocess` library to call the `./derive` script from Python. 
 
@@ -38,6 +47,13 @@ This will demonstrate our wallets ability to not only intereact with publicly av
   - Mnemonic (`--mnemonic`) must be set from an environment variable, or default to a test mnemonic
   - Coin (`--coin`)   - reads from the constants.py program we imported. 
   - Numderive (`--numderive`) to set number of child keys generated
+  - cols - columns headers from the bip44 output
+  - the ./derive script command will look like 
+
+```shell
+  'php derive -g --mnemonic= Mnemonic  --coin= Coin --numderive=Numderive  --cols= columns  --format=json'
+
+  ```
 
 - With the `--format=json` flag, we then parse the output into a JSON object using `json.loads(output)` and return the dictionary object of keys & addresses for each of the crypto currencies. The object is assigned to a dictionary variable called coins, when called will show the output as below.
 
@@ -47,13 +63,15 @@ We can select child accounts (and thus, private keys) by calling `coins[COINTYPE
 
 ![wallet-keys](Images/wallet_keys.PNG)
 
-- Wewill wrap all of the above into one function, called `derive_wallets` which uses the parameters/flags configured above and fetches the keys from 
+- All  the above is wrapped into one function, called `derive_wallets` which uses the parameters/flags configured above and fetches the keys from 
 [this tool](https://iancoleman.io/bip39/) using your Mnemonic phrase. 
 
 
-### Linking the transaction signing libraries
+</details>
 
-We will use `bit` and `web3.py` to leverage the keys we've got in the `coins` object using three more functions:
+<details><summary> <b>Linking the transaction signing libraries</b> </summary>
+
+Using `bit` and `web3.py` to leverage the keys we've got in the `coins` object using three core functions:
 
 - Function `priv_key_to_account` -- this will convert the `privkey` string in a child key to an account object that `bit` or `web3.py` can use to transact. This function accepts the following parameters: 
 
@@ -93,7 +111,9 @@ We will use `bit` and `web3.py` to leverage the keys we've got in the `coins` ob
 
 Now, we should be able to fund these wallets using testnet faucets. 
 
-#### Bitcoin Testnet transaction
+</details>
+
+<details><summary> <b>Bitcoin Testnet transaction </b> </summary>
 
 - Fund a `BTCTEST` address using [this testnet faucet](https://testnet-faucet.mempool.co/).
 
@@ -105,37 +125,40 @@ Now, we should be able to fund these wallets using testnet faucets.
 
 ![btc-test](Images/btc_tx4.PNG)
 
-#### Local PoA Ethereum transaction using ['POATestnet'](https://github.com/pdevalaraju/POA_Development_Blockchain)
+</details>
+
+<details><summary> <b> Local PoA Ethereum transaction using ['POATestnet'](https://github.com/pdevalaraju/POA_Development_Blockchain) </b> </summary>
 
 - Add one of the `ETH` addresses to the pre-allocated accounts in your `poatestnet.json`.
 
 - Initialize using `geth --datadir nodeX init poatestneet.json`. This will run our preconfigured local blockchain, and will pre-fund the new account.
+
+- open myCrypto tool and connect to your local testnet node. If the local blockchain network is not running the transaction will fail. 
 
 - Send a transaction from the pre-funded address within the wallet to another, then copy the `txid` into
   MyCrypto's TX Status. Below is the screenshot of successful transaction :
 
 ![eth-test](Images/eth_tx.PNG)
 
+</details>
 
 ## Accessing the wallet functions from powershell or git bash
 
-#### get_priv_key(coin):
+<details><summary> <b>  get_priv_key(coin): </b> </summary>
 	
 - Desrciption: This fetches the private key from environment variable file depending on the cointype. 
 	- This is alternate to fetching the keys from ['iancoleman.io'](https://iancoleman.io/bip39/) using the mnemonic phrase.
-	- primarily for users who have created an environment variable file [.ENV] and stored all their keys in it. 
-	- params: 
-
-		- cointype e.g 'ETH' or 'BTCTEST' as string or as list ['ETH', 'BTCTEST'] which gets translated into coin names in constants.py
-		- if a coin type is passed as string, e.g 'ETH' (upper/lower case), then the ouut put can be accessed by coins[INDEX]['privkey']
-		- if passed as a list ['ETH', 'BTCTEST'], out put can be accessed by coins['ETH'][INDEX]['privkey']
-    	
-	- output: returns private key as string
+	- primarily for users who have created an environment variable file [.ENV] and stored all their keys in it.  
+	- Key value pair in .env file should be of the format ETH_private_key if refererring ethereum and BTC_private_key for BTCTEST
+	- params: cointype as string e.g 'ETH' or 'BTCTEST' 
+	- output: returns private key string
 	- note: This can be run as a stand alone function without any dependencies on other functions usage via terminal when you import this program under python command shell:
 
 	![get_priv_key](Images/get_priv_key.PNG)
 
-#### key_derive(mnemonic, cointype, numderive, cols)
+</details>
+
+<details><summary> <b>  key_derive(mnemonic, cointype, numderive, cols) </b> </summary>
 	
 - Desrciption: function invokes hd-wallet-derive using [this tool](https://iancoleman.io/bip39/) to fetch the key pairs using BIP44 based on BIP39 tree of keys from the master key generated by bip32 mnemonic phase.
 
@@ -145,12 +168,19 @@ Now, we should be able to fund these wallets using testnet faucets.
 		- mnemonic phrase as string, cointype e.g: ETH or BTCTEST as string 
 		- numderive - number of key pairs to derive as int
 		- cols - columns of the bip44 output as string
+		- cointype e.g 'ETH' or 'BTCTEST' as string or as list ['ETH', 'BTCTEST'] which gets translated into coin names in constants.py
+		
+		- out put can be accessed by calling coins['ETH'][INDEX]['privkey']
+    	
+	- output: returns dictionary object of addresses, private keys and othe rcolumns that are called in cols as string
         
-	- output: returns dictionary of key objects with for each associated cointype
+	- output: 
 
 	![key_derive](Images/key_derive.PNG)
 
-#### priv_key_to_account(priv_key, coin)
+</details>
+
+<details><summary> <b>   priv_key_to_account(priv_key, coin)  </b> </summary>
 	
 - Desrciption: fethces the account address using the private key using either bit or web3 libraries depending on cointype
 	- This function can be run as a standalone function without dependencies on other functions
@@ -159,10 +189,12 @@ Now, we should be able to fund these wallets using testnet faucets.
 	- Dependencies: send_tx function and create_tx functions require account object to be able to prepare & send transactions. Without calling this function by passing the private key and coin type, an Account object will not be created. 
 	
 	![key_to_account_1](Images/key_to_account_1.PNG)
-
+	- or 
 	![key_to_account_2](Images/key_to_account_2.PNG)
 
-#### create_tx(coin, account, to, amount):
+</details>
+
+<details><summary> <b>  create_tx(coin, account, to, amount): </b> </summary>
     
 - Desrciption: creates crypto transaction by invoking bit or web3 libraries.
 
@@ -174,7 +206,9 @@ Now, we should be able to fund these wallets using testnet faucets.
 	- output: returns raw transaction created by bit or web3 to the calling function - send_tx
   	- Dependencies: This function cannot be executed in isolation. send_tx function to be called by passing it's required parameters, which in 	turn triggers create_tx function. The output of create_tx function is returned to calling function send_tx which then gets the raw_tx signed and broadcasted before returning the transaction hash.
 
-#### send_tx(coin, account, to, amount):
+</details>
+
+<details><summary> <b>  send_tx(coin, account, to, amount):  </b> </summary>
 
 - Desrciption: this function invokes creating raw transaction and signs the transaction before broadcasting to the network
 
@@ -184,13 +218,18 @@ Now, we should be able to fund these wallets using testnet faucets.
 		- recipients account Address as string and
 		- amount to transact as string
 
-	- output: returns the transaction hash
+	- output: returns the transaction hash.
 	- dependencies: depends on the Account object generated via priv_key_to_account. You can pass this object via terminal command by capturing the output from the priv_key_to_account function and supplying it to this function as parameter. You can then print the transaction output by calling the variable that captures the funtion return.
 
 	![Send Transaction](Images/send_tx.PNG)
+
+	![Transaction output](Images/send_tx_output.PNG)
 	
 
-#### get_balance(sender, token):
+</details>
+
+<details><summary> <b>  get_balance(sender, token): </b> </summary>
+
 - Desrciption: This function requires the senders account object generated via priv_key_to_account function to check the account balance
 
 	- params: accepts sender account as an object. run the priv_key_to_account(privkey, coin) function to get an account object
@@ -198,10 +237,12 @@ Now, we should be able to fund these wallets using testnet faucets.
 	- returns the account balance
 	
 	![get Balance](Images/get_balance.PNG)
+
 	![Balance](Images/balance.PNG)
 
+</details>
 
-#### get_transaction_status(txhash, token):
+<details><summary> <b> get_transaction_status(txhash, token): </b> </summary>
 
 - Desrciption: This is a standalone function to check the transaction status
 
@@ -218,6 +259,5 @@ Now, we should be able to fund these wallets using testnet faucets.
 	- Transaction Successful:
 	![Transaction Success](Images/tx_success.PNG)
 
-
-
+</details>
 
