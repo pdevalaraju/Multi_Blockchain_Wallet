@@ -265,6 +265,6 @@ Open a new Anaconda powershell prompt and run python. at the next prompt, enter 
 
 </details>
 
-## Accessing the wallet functions using Jupiter Notebook
+## Accessing the wallet functions using Jupyter Notebook
 
 if you would like to play around with the functions or would like to add more, please use the [Notebook](/wallet.ipynb)
